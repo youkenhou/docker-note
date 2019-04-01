@@ -10,12 +10,13 @@
 - 创建一个新的容器：```docker run  <arguments>  <image name>```
 
   - arguments：
-    - -i -t / -it：配合使用可进入bash，如```docker run -it <image name> /bin/bash```
+    - -i -t / -it：配合使用可进入bash，如`docker run -it <image name> bash`
     - --rm：终止容器后容器自动销毁
     - --name：命名容器
     - --dns：容器无法联网时配置DNS
     - ~~--mount：挂载宿主机文件/文件夹~~
     - -v：挂载宿主机文件/文件夹
+    - --network=host
 
     例如
 
@@ -73,7 +74,7 @@ nmcli dev show | grep 'IP4.DNS'	#查询ip
     "dns": ["x.x.x.x", "x.x.x.x"]	#填写上面查询到的ip地址                      
 }
 ```
-
+有的时候新镜像无法进行`apt-get update`,会卡在中间,这是因为没有`apt-transport-https`这个包,到网上下载了deb文件后利用`dpkg -i`安装就可以了.
 
 
 ## Docker + ROS
@@ -105,7 +106,7 @@ xhost +
 ```bash
 docker run --runtime=nvidia --rm -it \
 -e DISPLAY --env="QT_X11_NO_MITSHM=1" \
--e GDK_SCALE -e GDK_DPI_SCALE \
+~-e GDK_SCALE -e GDK_DPI_SCALE~ \
 -v /tmp/.X11-unix:/tmp/.X11-unix \
 <image name>
 ```
@@ -129,4 +130,5 @@ docker run -it --rm \
 --mac-address=10:7b:44:17:d7:8f
 ```
 
-
+## container获取usb摄像头数据
+一定要在container启动前将摄像头接到主机上,不然container无法读取,在启动参数里加上`--privileged`.
