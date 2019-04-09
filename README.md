@@ -110,7 +110,7 @@ xhost +
 ```bash
 docker run --runtime=nvidia --rm -it \
 -e DISPLAY --env="QT_X11_NO_MITSHM=1" \
-~-e GDK_SCALE -e GDK_DPI_SCALE~ \
+~~-e GDK_SCALE -e GDK_DPI_SCALE~~ \
 -v /tmp/.X11-unix:/tmp/.X11-unix \
 <image name>
 ```
