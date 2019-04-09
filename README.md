@@ -63,7 +63,7 @@ sed -i 's/archive.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
 
 ## Dockerfile联网问题
 
-RUN apt等命令无法成功，需要在``/etc/docker/daemon.json``中添加dns地址
+RUN apt等命令无法成功，需要在本机上的``/etc/docker/daemon.json``中添加dns地址
 
 ```bash
 nmcli dev show | grep 'IP4.DNS'	#查询ip
@@ -73,6 +73,10 @@ nmcli dev show | grep 'IP4.DNS'	#查询ip
 {                                                                          
     "dns": ["x.x.x.x", "x.x.x.x"]	#填写上面查询到的ip地址                      
 }
+```
+在这之后需要重启一下docker的进程
+```bash
+sudo service docker restart
 ```
 有的时候新镜像无法进行`apt-get update`,会卡在中间,这是因为没有`apt-transport-https`这个包,到网上下载了deb文件后利用`dpkg -i`安装就可以了.
 
