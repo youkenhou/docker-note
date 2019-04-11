@@ -31,11 +31,11 @@
     bash
     ```
 
-- 打开一个已存在容器``docker exec <arguments> <container name>``(使用exit不会终止容器)；
+- 打开一个已经存在的容器``docker exec <arguments> <container name>``(使用exit不会终止容器)；
 
   或者使用``docker attach <container name>``（使用exit会终止容器）；
 
-  启动已终止容器之前需要``docker container start <container name>``
+  启动已终止容器之前需要``docker container start <container name>``,再配合`attach`进入容器.
 
 
 ## nvidia-docker启动命令
@@ -109,7 +109,8 @@ xhost +
 
 ```bash
 docker run --runtime=nvidia --rm -it \
--e DISPLAY --env="QT_X11_NO_MITSHM=1" \
+-e DISPLAY=unix${DISPLAY} \
+-e QT_X11_NO_MITSHM=1 \ #可以在做镜像的时候就设定好这一句
 -e GDK_SCALE -e GDK_DPI_SCALE \ #这一行应该不需要
 -v /tmp/.X11-unix:/tmp/.X11-unix \
 <image name>
@@ -136,3 +137,13 @@ docker run -it --rm \
 
 ## container获取usb摄像头数据
 一定要在container启动前将摄像头接到主机上,不然container无法读取,在启动参数里加上`--privileged`.
+
+## docker保存与加载镜像
+保存镜像
+```bash
+docker save [image name]>image_name.tar
+```
+加载镜像
+```bash
+docker load<image_name.tar
+```
