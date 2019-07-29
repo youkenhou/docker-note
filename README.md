@@ -183,4 +183,6 @@ docker run -it --rm \
 --mac-address=10:7b:44:17:d7:8f
 ```
 
-
+## RuntimeError: DataLoader worker (pid 1821) is killed by signal: Bus error.
+This error is caused by lack of shared memory when using pytorch.
+**solution**: When starting a container, add the argument `--shm-size 10G`. Or simply reduce the size of num_workers in dataloader.
